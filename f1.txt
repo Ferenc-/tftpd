@@ -1,0 +1,18 @@
+
+
+boot options:
+
+0  memtest      - MemTest86+-5.01
+
+1  BFO          - boot.fedoraproject.org
+
+2  install_64_17- install x86_64 Fedora 17
+   
+3  install_12.2 - install x86_64 openSUSE 12.2
+
+4  install_12.3 - install x86_64 openSUSE 12.3
+
+5  install_13.1 - install x86_64 openSUSE 13.1
+
+boot:
+
