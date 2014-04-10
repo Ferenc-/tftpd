@@ -9,34 +9,35 @@ timeout  600
 # Memtest86+ from www.memtest.org
 #label memtest
 label 0
-# .bin extension needs to be removed
+# .bin extension needs to be removed:
+# http://www.syslinux.org/wiki/index.php/PXELINUX#What_Problems_Are_There_Currently_With_PXELINUX.3F 
 # http://pxe.dev.aboveaverageurl.com/index.php/PXE_FAQ#I_used_PXELINUX_to_boot_memtest86.2B.bin.2C_but_all_it_does_it_print_.228000.22_over_and_over_again.21
-kernel memtest86+-501 
+kernel memtest86/memtest86+-501 
 
 # BFO from boot.fedoraproject.org
 #label BFO
 label 1
-kernel bfo.lkrn
+kernel BFO/bfo.lkrn
 
 # Install Fedora 17 x86_64
 label 2
-kernel vmlinuz
-append ip=dhcp noipv6 ksdevice=eth0 method=http://ftp.freepark.org/pub/linux/distributions/fedora/linux/releases/17/Fedora/x86_64/os/ lang=en_US keymap=hu initrd=initrd.img
+kernel Fedora/linux17
+append ip=dhcp noipv6 ksdevice=eth0 method=http://ftp.freepark.org/pub/linux/distributions/fedora/linux/releases/17/Fedora/x86_64/os/ lang=en_US keymap=hu initrd=Fedora/initrd17
   
 # Install 12.2 x86_64
 #label install_12.2
 label 3
-kernel linux122
-append initrd=initrd122 nomodeset splash=verbose vga=0x314 showopts install=http://download.opensuse.org/distribution/12.2/repo/oss/
+kernel openSUSE/linux122
+append initrd=openSUSE/initrd122 nomodeset splash=verbose vga=0x314 showopts install=http://download.opensuse.org/distribution/12.2/repo/oss/
 
 # Install 12.3 x86_64
 #label install_12.3
 label 4
-kernel linux123
-append initrd=initrd123 nomodeset splash=verbose vga=0x314 showopts install=http://download.opensuse.org/distribution/12.3/repo/oss/
+kernel opensSUSE/linux123
+append initrd=openSUSE/initrd123 nomodeset splash=verbose vga=0x314 showopts install=http://download.opensuse.org/distribution/12.3/repo/oss/
 
 # Install 13.1 x86_64
 #label install_13.1
 label 5
-kernel linux131
-append initrd=initrd131 nomodeset splash=verbose vga=0x314 showopts install=http://download.opensuse.org/distribution/13.1/repo/oss/
+kernel openSUSE/linux131
+append initrd=openSUSE/initrd131 nomodeset splash=verbose vga=0x314 showopts install=http://download.opensuse.org/distribution/13.1/repo/oss/
