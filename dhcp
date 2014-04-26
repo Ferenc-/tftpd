@@ -24,11 +24,11 @@ config dnsmasq
 	
 
 config boot TFTPD 
-	option filename pxelinux.0
-#	option filename bootx64.efi
-#	option filename BOOTX64.efi
-#	option filename EFI/BOOT/BOOTX64.efi
-#	option filename grubx64.efi
+#	option filename gpxelinux.0
+	option filename lpxelinux.0
+#	option filename pxelinux.0
+#	option filename syslinux64.efi
+
 	option serveraddress 192.168.1.1
 	option servername router
 

@@ -1,4 +1,5 @@
 UI links/vesamenu.c32
+#UI vesamenu.c32
 #FAULT bootlocal
 MENU RESOLUTION 1920 1200
 MENU BACKGROUND pxelinux.cfg/MountainView1920x1200.jpg
@@ -30,9 +31,14 @@ LABEL clonezilla
     TEXT HELP
         This will boot clonezilla-live-20140415-saucy-amd64
     ENDTEXT
+
     KERNEL Clonezilla/vmlinuz
-    INITRD Clonezilla/initrd.img
-    APPEND boot=live config noswap nolocales edd=on nomodeset ocs_live_run="ocs-live-general" ocs_live_extra_param="" keyboard-layouts="" ocs_live_batch="no" locales="" vga=788 nosplash noprompt fetch=tftp://192.168.1.1/Clonezilla/filesystem.squashfs
+#http enabled:
+    INITRD http://192.168.1.1/tftpd/Clonezilla/initrd.img
+    APPEND boot=live config noswap nolocales edd=on nomodeset ocs_live_run="ocs-live-general" ocs_live_extra_param="" keyboard-layouts="" ocs_live_batch="no" locales="" vga=788 nosplash noprompt fetch=http://192.168.1.1/tftpd/Clonezilla/filesystem.squashfs
+# Only tftpd:
+#    INITRD Clonezilla/initrd.img
+#    APPEND boot=live config noswap nolocales edd=on nomodeset ocs_live_run="ocs-live-general" ocs_live_extra_param="" keyboard-layouts="" ocs_live_batch="no" locales="" vga=788 nosplash noprompt fetch=tftp://192.168.1.1/Clonezilla/filesystem.squashfs
 
 # http://www.wonkity.com/~wblock/docs/html/pxe.html
 # root/mfsroot
@@ -51,13 +57,13 @@ LABEL systemrescuecd
         This will boot systemrescuecd-x86-4.2.0.iso (64 bit kernel) 
     ENDTEXT
 #http enabled:
-#    KERNEL http://192.168.1.1:/tftpd/systemrescuecd/rescue64 
-#    INITRD http://192.168.1.1:/systemrescuecd/initram.igz
-#    APPEND setkmap=us netboot=http://192.168.1.1/tftpd/systemrescuecd/sysrcd.dat
+    KERNEL http://192.168.1.1/tftpd/systemrescuecd/rescue64 
+    INITRD http://192.168.1.1/tftpd/systemrescuecd/initram.igz
+    APPEND setkmap=us netboot=http://192.168.1.1/tftpd/systemrescuecd/sysrcd.dat
 # Only tftpd:
-    KERNEL systemrescuecd/rescue64 
-    INITRD systemrescuecd/initram.igz
-    APPEND setkmap=us netboot=tftp://192.168.1.1/systemrescuecd/sysrcd.dat
+#    KERNEL systemrescuecd/rescue64 
+#    INITRD systemrescuecd/initram.igz
+#    APPEND setkmap=us netboot=tftp://192.168.1.1/systemrescuecd/sysrcd.dat
 
 
 menu include pxelinux.cfg/install.conf Install
