@@ -1,43 +1,73 @@
+UI links/vesamenu.c32
+#FAULT bootlocal
+MENU RESOLUTION 1920 1200
+MENU BACKGROUND pxelinux.cfg/MountainView1920x1200.jpg
+PROMPT 0
+MENU TITLE PXE menu by Ferenc
 
-DISPLAY f1.txt
-F1 f1.txt
+LABEL bootlocal
+    MENU DEFAULT
+    MENU LABEL Local Boot
+    TEXT HELP
+        This will exit from the network boot menu and attempt
+        to boot from local media (hard disk, DVD, etc)
+    ENDTEXT
+    localboot 0x80
 
-default install_64_12.3
-prompt   1
-timeout  600
+LABEL liveiso
+    MENU LABEL LiveISO Boot
+    TEXT HELP
+        This will boot some LiveISO
+    ENDTEXT
+    KERNEL memdisk
+    #INITRD Live_ISOs/RebeccaBlackLinux_Reduced_i386.iso 
+    #INITRD Live_ISOs/maui-0.0.2-x86_64.iso
+    INITRD Live_ISOs/CorePure64-5.3.iso
+    APPEND iso
 
-# Memtest86+ from www.memtest.org
-#label memtest
-label 0
-# .bin extension needs to be removed:
-# http://www.syslinux.org/wiki/index.php/PXELINUX#What_Problems_Are_There_Currently_With_PXELINUX.3F 
-# http://pxe.dev.aboveaverageurl.com/index.php/PXE_FAQ#I_used_PXELINUX_to_boot_memtest86.2B.bin.2C_but_all_it_does_it_print_.228000.22_over_and_over_again.21
-kernel memtest86/memtest86+-501 
+LABEL clonezilla
+    MENU LABEL Clonezilla Live
+    TEXT HELP
+        This will boot clonezilla-live-20140415-saucy-amd64
+    ENDTEXT
+    KERNEL Clonezilla/vmlinuz
+    INITRD Clonezilla/initrd.img
+    APPEND boot=live config noswap nolocales edd=on nomodeset ocs_live_run="ocs-live-general" ocs_live_extra_param="" keyboard-layouts="" ocs_live_batch="no" locales="" vga=788 nosplash noprompt fetch=tftp://192.168.1.1/Clonezilla/filesystem.squashfs
 
-# BFO from boot.fedoraproject.org
-#label BFO
-label 1
-kernel BFO/bfo.lkrn
+# http://www.wonkity.com/~wblock/docs/html/pxe.html
+# root/mfsroot
+LABEL mfsBSD
+    MENU LABEL mfsBSD (FreeBSD) 10.0
+    TEXT HELP
+        This will boot mfsbsd-se-10.0-RELEASE-amd64.img
+    ENDTEXT
+    KERNEL memdisk 
+    INITRD mfsBSD/mfsbsd-se-10.0-RELEASE-amd64.img.gz raw
 
-# Install Fedora 17 x86_64
-label 2
-kernel Fedora/linux17
-append ip=dhcp noipv6 ksdevice=eth0 method=http://ftp.freepark.org/pub/linux/distributions/fedora/linux/releases/17/Fedora/x86_64/os/ lang=en_US keymap=hu initrd=Fedora/initrd17
-  
-# Install 12.2 x86_64
-#label install_12.2
-label 3
-kernel openSUSE/linux122
-append initrd=openSUSE/initrd122 nomodeset splash=verbose vga=0x314 showopts install=http://download.opensuse.org/distribution/12.2/repo/oss/
 
-# Install 12.3 x86_64
-#label install_12.3
-label 4
-kernel opensSUSE/linux123
-append initrd=openSUSE/initrd123 nomodeset splash=verbose vga=0x314 showopts install=http://download.opensuse.org/distribution/12.3/repo/oss/
+LABEL systemrescuecd
+    MENU LABEL System Rescue CD x64 4.2.0
+    TEXT HELP
+        This will boot systemrescuecd-x86-4.2.0.iso (64 bit kernel) 
+    ENDTEXT
+#http enabled:
+#    KERNEL http://192.168.1.1:/tftpd/systemrescuecd/rescue64 
+#    INITRD http://192.168.1.1:/systemrescuecd/initram.igz
+#    APPEND setkmap=us netboot=http://192.168.1.1/tftpd/systemrescuecd/sysrcd.dat
+# Only tftpd:
+    KERNEL systemrescuecd/rescue64 
+    INITRD systemrescuecd/initram.igz
+    APPEND setkmap=us netboot=tftp://192.168.1.1/systemrescuecd/sysrcd.dat
 
-# Install 13.1 x86_64
-#label install_13.1
-label 5
-kernel openSUSE/linux131
-append initrd=openSUSE/initrd131 nomodeset splash=verbose vga=0x314 showopts install=http://download.opensuse.org/distribution/13.1/repo/oss/
+
+menu include pxelinux.cfg/install.conf Install
+menu include pxelinux.cfg/utilities.conf Utilities
+
+
+LABEL bfo 
+    MENU LABEL BFO
+    TEXT HELP
+        This will boot BFO by boot.fedoraproject.org 
+    ENDTEXT
+    KERNEL BFO/bfo.lkrn
+
